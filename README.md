@@ -33,12 +33,24 @@ EMAIL_PASS=your_smtp_password
 FEEDBACK_URL_BASE=http://your-client-app-base-url
 ```
 
+The client app from the repository on https://github.com/saandreev1/swisscom-assignment-frontend runs on `http://localhost:5173`.
+
 ---
 
 ### Generate Prisma Client
 
 ```bash
 npx prisma generate
+```
+
+---
+
+### Create the Database
+
+If the `dev.db` SQLite database file does not exist (e.g. on first clone), create it and apply all schema migrations with:
+
+```bash
+npx prisma migrate deploy
 ```
 
 ---

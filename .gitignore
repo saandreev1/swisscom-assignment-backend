@@ -6,6 +6,6 @@ dist/
 
 /src/generated/prisma
 
-# Ignore SQLite database
-prisma/prisma
-prisma/prisma
+prisma/prisma/dev.db
+
+prisma/migration_lock.toml
