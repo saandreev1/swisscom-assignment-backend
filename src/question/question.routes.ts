@@ -42,6 +42,10 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Question created
+ *       400:
+ *         description: Text and type are required and must be strings OR Invalid question type OR Options must be a non-empty array for multiple choice questions
+ *       401:
+ *         description: Unauthorized
  */
 router.post('/questions', authenticate, createQuestionHandler);
 
@@ -58,36 +62,28 @@ router.post('/questions', authenticate, createQuestionHandler);
  *         name: createdById
  *         schema:
  *           type: integer
- *         required: false
- *         description: Filter by creator ID
  *       - in: query
  *         name: type
  *         schema:
  *           type: string
  *           enum: [TEXT, RATING, MULTIPLE_CHOICE]
- *         required: false
- *         description: Filter by question type
  *       - in: query
  *         name: search
  *         schema:
  *           type: string
- *         required: false
- *         description: Search text
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page number
  *       - in: query
  *         name: pageSize
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page size
  *     responses:
  *       200:
  *         description: List of questions
+ *       400:
+ *         description: Invalid query parameters
  */
 router.get('/questions', authenticate, getQuestionsHandler);
 
@@ -108,6 +104,8 @@ router.get('/questions', authenticate, getQuestionsHandler);
  *     responses:
  *       200:
  *         description: Question found
+ *       404:
+ *         description: Question not found
  */
 router.get('/questions/:id', authenticate, getQuestionByIdHandler);
 
@@ -141,6 +139,10 @@ router.get('/questions/:id', authenticate, getQuestionByIdHandler);
  *     responses:
  *       200:
  *         description: Question updated
+ *       400:
+ *         description: Text is required and must be a string OR Options must be a non-empty array if provided
+ *       403:
+ *         description: Forbidden
  */
 router.patch('/questions/:id', authenticate, updateQuestionHandler);
 
@@ -161,6 +163,10 @@ router.patch('/questions/:id', authenticate, updateQuestionHandler);
  *     responses:
  *       204:
  *         description: Question deleted
+ *       400:
+ *         description: Error deleting question
+ *       403:
+ *         description: Forbidden
  */
 router.delete('/questions/:id', authenticate, deleteQuestionHandler);
 
@@ -195,6 +201,10 @@ router.delete('/questions/:id', authenticate, deleteQuestionHandler);
  *     responses:
  *       201:
  *         description: Question linked to form
+ *       400:
+ *         description: Error linking question
+ *       403:
+ *         description: Forbidden
  */
 router.post('/forms/:formId/questions/:questionId', authenticate, linkQuestionHandler);
 
@@ -220,6 +230,10 @@ router.post('/forms/:formId/questions/:questionId', authenticate, linkQuestionHa
  *     responses:
  *       204:
  *         description: Question unlinked from form
+ *       400:
+ *         description: Error unlinking question
+ *       403:
+ *         description: Forbidden
  */
 router.delete('/forms/:formId/questions/:questionId', authenticate, unlinkQuestionFromFormHandler);
 

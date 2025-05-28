@@ -36,6 +36,8 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Feedback request created
+ *       400:
+ *         description: Candidate email and form ID are required.
  */
 router.post('/feedback-requests', authenticate, createFeedbackRequestHandler);
 
@@ -52,50 +54,39 @@ router.post('/feedback-requests', authenticate, createFeedbackRequestHandler);
  *         name: reviewerId
  *         schema:
  *           type: integer
- *         required: false
- *         description: Filter by reviewer ID
  *       - in: query
  *         name: status
  *         schema:
  *           type: string
- *           enum: [PENDING, SUBMITTED]
- *         required: false
- *         description: Filter by status
+ *           enum: [PENDING, SUBMITTED, EXPIRED]
  *       - in: query
  *         name: formId
  *         schema:
  *           type: integer
- *         required: false
- *         description: Filter by form ID
  *       - in: query
  *         name: candidateEmail
  *         schema:
  *           type: string
- *         required: false
- *         description: Filter by candidate email
  *       - in: query
  *         name: candidateName
  *         schema:
  *           type: string
- *         required: false
- *         description: Filter by candidate name
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page number
  *       - in: query
  *         name: pageSize
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page size
  *     responses:
  *       200:
  *         description: A list of feedback requests
+ *       400:
+ *         description: [dynamic error message]
  */
 router.get('/feedback-requests', authenticate, getFeedbackRequestsHandler);
+
 /**
  * @openapi
  * /api/feedback-requests/token/{token}:
@@ -111,6 +102,12 @@ router.get('/feedback-requests', authenticate, getFeedbackRequestsHandler);
  *     responses:
  *       200:
  *         description: Feedback request details
+ *       400:
+ *         description: This feedback request has already been submitted.
+ *       404:
+ *         description: Invalid or expired token.
+ *       500:
+ *         description: Internal server error
  */
 router.get('/feedback-requests/token/:token', getFeedbackRequestByTokenHandler);
 
@@ -131,6 +128,8 @@ router.get('/feedback-requests/token/:token', getFeedbackRequestByTokenHandler);
  *     responses:
  *       204:
  *         description: Feedback request deleted
+ *       400:
+ *         description: [dynamic error message]
  */
 router.delete('/feedback-requests/:id', authenticate, deleteFeedbackRequestHandler);
 

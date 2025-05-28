@@ -1,6 +1,6 @@
 # Interview Feedback System API
 
-This is a backend API for managing feedback forms, interview evaluations, and reviewer interactions. Built with **Express**, **TypeScript**, **Prisma**, and **SQLite**.
+This is a backend API server for a system that enables students applying for internships at Swisscom to provide feedback following an interview. It was built as part of a coding assignment, with **Express**, **TypeScript**, **Prisma**, and **SQLite**.
 
 ---
 
@@ -9,8 +9,7 @@ This is a backend API for managing feedback forms, interview evaluations, and re
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/saandreev1/swisscom-assignment-backend.git
 ```
 
 ### Install dependencies
@@ -24,16 +23,14 @@ npm install
 Create a `.env` file in the root of the project and add the following:
 
 ```env
-JWT_SECRET=super-secret-key
+JWT_SECRET=your_jwt_secret_here
 
-# Mailtrap SMTP credentials (for dev email testing)
-EMAIL_HOST=sandbox.smtp.mailtrap.io
-EMAIL_PORT=2525
-EMAIL_USER=6189cef5d3bc7c
-EMAIL_PASS=5fd302b07444d7
+EMAIL_HOST=your_smtp_host
+EMAIL_PORT=your_smtp_port
+EMAIL_USER=your_smtp_user
+EMAIL_PASS=your_smtp_password
 
-# Base URL used in feedback request links
-FEEDBACK_URL_BASE=http://localhost:5173
+FEEDBACK_URL_BASE=http://your-client-app-base-url
 ```
 
 ---
@@ -42,12 +39,6 @@ FEEDBACK_URL_BASE=http://localhost:5173
 
 ```bash
 npx prisma generate
-```
-
-(Optional: If using migrations)
-
-```bash
-npx prisma migrate dev --name init
 ```
 
 ---
@@ -78,14 +69,34 @@ http://localhost:4000/api-docs
 
 On first run (when no admin exists), the server will automatically create:
 
-- **Email:** `admin@swisscom.com`
-- **Password:** `secret123`
+- A default admin user with predefined credentials.
+- 3 default questions (TEXT, RATING, MULTIPLE_CHOICE).
+- 1 form linked to all 3 questions.
+- 1 form linked to only the TEXT question.
 
-It will also create:
+---
 
-- 3 default questions (TEXT, RATING, MULTIPLE_CHOICE)
-- 1 form linked to all 3 questions
-- 1 form linked to only the TEXT question
+## Docker
+
+To run the project in a container:
+
+1. Build and start the container:
+
+```bash
+docker compose up --build
+```
+
+2. The API will be available at:
+
+```
+http://localhost:4000
+```
+
+You can stop the container with:
+
+```bash
+docker compose down
+```
 
 ---
 
@@ -96,34 +107,4 @@ It will also create:
 - **Prisma ORM**
 - **SQLite**
 - **JWT** (JSON Web Token)
-- **Mailtrap** (SMTP testing)
-
----
-
-## Project Structure
-
-```
-├── prisma/              # Prisma schema and migrations
-├── src/                 # Source code
-│   ├── routes/          # Express route files
-│   ├── controllers/     # Business logic
-│   ├── middleware/      # Auth, role-checking, etc.
-│   └── utils/           # Swagger config, admin init
-├── .env                 # Environment variables (not committed)
-├── package.json
-├── tsconfig.json
-└── README.md
-```
-
----
-
-## Environment Variables
-
-| Variable           | Description                                 |
-|--------------------|---------------------------------------------|
-| `JWT_SECRET`       | Secret key for JWT signing                  |
-| `EMAIL_HOST`       | SMTP host (e.g., Mailtrap)                  |
-| `EMAIL_PORT`       | SMTP port                                   |
-| `EMAIL_USER`       | SMTP user name                              |
-| `EMAIL_PASS`       | SMTP password                               |
-| `FEEDBACK_URL_BASE`| URL used in email links to access feedback  |
+- **SMTP** (in this case, Mailtrap for testing emails)

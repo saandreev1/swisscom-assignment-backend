@@ -33,8 +33,12 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Reviewer created
+ *       400:
+ *         description: Email and password are required
  *       403:
- *         description: Forbidden
+ *         description: Forbidden (not an admin)
+ *       409:
+ *         description: Email already in use
  */
 router.post('/reviewers', authenticate, requireRole('ADMIN'), createReviewer);
 
@@ -59,15 +63,19 @@ router.post('/reviewers', authenticate, requireRole('ADMIN'), createReviewer);
  *           schema:
  *             type: object
  *             required:
- *               - password
+ *               - newPassword
  *             properties:
- *               password:
+ *               newPassword:
  *                 type: string
  *     responses:
  *       200:
  *         description: Password updated
+ *       400:
+ *         description: New password is required
  *       403:
- *         description: Forbidden
+ *         description: Forbidden (not an admin)
+ *       500:
+ *         description: Failed to update password
  */
 router.put('/reviewers/:id/password', authenticate, requireRole('ADMIN'), changeReviewerPassword);
 

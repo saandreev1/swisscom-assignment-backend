@@ -44,7 +44,7 @@ const router = Router();
  *                     role:
  *                       type: string
  *       400:
- *         description: Missing credentials
+ *         description: Email and password are required
  *       401:
  *         description: Invalid credentials
  */

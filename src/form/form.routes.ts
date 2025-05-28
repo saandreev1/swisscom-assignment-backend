@@ -15,6 +15,8 @@ const router = Router();
  *   post:
  *     summary: Create a new form
  *     tags: [Forms]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -29,6 +31,10 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Form created
+ *       400:
+ *         description: Title is required.
+ *       500:
+ *         description: Failed to create form.
  */
 router.post('/forms', authenticate, createFormHandler);
 
@@ -38,6 +44,8 @@ router.post('/forms', authenticate, createFormHandler);
  *   patch:
  *     summary: Update form title
  *     tags: [Forms]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -58,6 +66,10 @@ router.post('/forms', authenticate, createFormHandler);
  *     responses:
  *       200:
  *         description: Form updated
+ *       400:
+ *         description: Title is required and must be a string.
+ *       403:
+ *         description: Forbidden
  */
 router.patch('/forms/:id', authenticate, updateFormTitleHandler);
 
@@ -74,29 +86,23 @@ router.patch('/forms/:id', authenticate, updateFormTitleHandler);
  *         name: createdById
  *         schema:
  *           type: integer
- *         required: false
- *         description: Filter by creator ID
  *       - in: query
  *         name: title
  *         schema:
  *           type: string
- *         required: false
- *         description: Filter by form title (partial match)
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page number
  *       - in: query
  *         name: pageSize
  *         schema:
  *           type: integer
- *         required: false
- *         description: Pagination - page size
  *     responses:
  *       200:
  *         description: A list of forms
+ *       400:
+ *         description: [dynamic error message]
  */
 router.get('/forms', authenticate, getFormsHandler);
 
@@ -106,6 +112,8 @@ router.get('/forms', authenticate, getFormsHandler);
  *   get:
  *     summary: Get form by ID
  *     tags: [Forms]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -115,6 +123,8 @@ router.get('/forms', authenticate, getFormsHandler);
  *     responses:
  *       200:
  *         description: Form details
+ *       404:
+ *         description: [dynamic error message]
  */
 router.get('/forms/:id', authenticate, getFormByIdHandler);
 

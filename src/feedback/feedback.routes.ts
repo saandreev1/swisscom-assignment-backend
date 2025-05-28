@@ -27,6 +27,8 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - answers
  *             properties:
  *               answers:
  *                 type: array
@@ -35,6 +37,8 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Feedback submitted successfully
+ *       400:
+ *         description: Answers must be an array
  */
 router.post('/feedback/:token', submitFeedbackHandler);
 
@@ -55,6 +59,8 @@ router.post('/feedback/:token', submitFeedbackHandler);
  *     responses:
  *       200:
  *         description: Feedback data
+ *       404:
+ *         description: Feedback not found
  */
 router.get('/feedback/:id', authenticate, getFeedbackHandler);
 
@@ -75,6 +81,10 @@ router.get('/feedback/:id', authenticate, getFeedbackHandler);
  *     responses:
  *       204:
  *         description: Feedback deleted
+ *       400:
+ *         description: Forbidden or deletion error
+ *       403:
+ *         description: Forbidden
  */
 router.delete('/feedback/:id', authenticate, deleteFeedbackHandler);
 
