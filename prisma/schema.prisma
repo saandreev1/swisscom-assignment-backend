@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./prisma/dev.db"
+}
+
+enum Role {
+  ADMIN
+  REVIEWER
+}
+
+enum QuestionType {
+  TEXT
+  RATING
+  MULTIPLE_CHOICE
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  email             String             @unique
+  password          String
+  role              Role
+  forms             Form[]             @relation("FormCreator")
+  feedbackRequests  FeedbackRequest[]  @relation("ReviewerRequests")
+  questionsCreated  Question[]         @relation("QuestionCreator")
+}
+
+model Form {
+  id          Int               @id @default(autoincrement())
+  title       String
+  createdById Int
+  createdBy   User              @relation("FormCreator", fields: [createdById], references: [id])
+  requests    FeedbackRequest[]
+  questions   FormQuestion[]
+}
+
+model Question {
+  id           Int             @id @default(autoincrement())
+  text         String
+  type         QuestionType
+  options      Json?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  answers      Answer[]
+  forms        FormQuestion[]
+  createdById  Int
+  createdBy    User            @relation("QuestionCreator", fields: [createdById], references: [id])
+}
+
+model FormQuestion {
+  id         Int       @id @default(autoincrement())
+  formId     Int
+  questionId Int
+  order      Int
+  form       Form      @relation(fields: [formId], references: [id])
+  question   Question  @relation(fields: [questionId], references: [id])
+}
+
+enum FeedbackRequestStatus {
+  PENDING
+  SUBMITTED
+  EXPIRED
+}
+
+model FeedbackRequest {
+  id             Int       @id @default(autoincrement())
+  token          String    @unique
+  candidateEmail String
+  candidateName  String?
+  reviewerId     Int
+  reviewer       User      @relation("ReviewerRequests", fields: [reviewerId], references: [id])
+  formId         Int
+  form           Form      @relation(fields: [formId], references: [id])
+  feedback       Feedback?
+  status         FeedbackRequestStatus @default(PENDING)
+  createdAt      DateTime  @default(now())
+}
+
+model Feedback {
+  id                 Int       @id @default(autoincrement())
+  feedbackRequestId  Int       @unique
+  feedbackRequest    FeedbackRequest @relation(fields: [feedbackRequestId], references: [id], onDelete: Cascade)
+  submittedAt        DateTime  @default(now())
+  answers            Answer[]
+}
+
+model Answer {
+  id          Int       @id @default(autoincrement())
+  feedbackId  Int
+  feedback    Feedback  @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+  questionId  Int
+  question    Question  @relation(fields: [questionId], references: [id])
+  text        String?
+  rating      Int?
+  selected    Json?
+}
