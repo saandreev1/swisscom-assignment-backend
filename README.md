@@ -1,10 +1,10 @@
 # Interview Feedback System API
 
-This is a backend API for managing feedback forms, interview evaluations, and reviewer interactions. Built with **Express**, **TypeScript**, **Prisma**, and **SQLite** (for development).
+This is a backend API for managing feedback forms, interview evaluations, and reviewer interactions. Built with **Express**, **TypeScript**, **Prisma**, and **SQLite**.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Clone the repository
 
@@ -36,8 +36,6 @@ EMAIL_PASS=5fd302b07444d7
 FEEDBACK_URL_BASE=http://localhost:5173
 ```
 
-> Do not commit `.env` to version control. Use `.gitignore` to exclude it.
-
 ---
 
 ### Generate Prisma Client
@@ -64,7 +62,7 @@ Visit `http://localhost:4000` to verify the server is running.
 
 ---
 
-## 📬 API Documentation
+## API Documentation
 
 The project uses Swagger UI to provide live API docs.
 
@@ -76,7 +74,7 @@ http://localhost:4000/api-docs
 
 ---
 
-## 🧪 Default Admin Initialization
+## Default Admin Initialization
 
 On first run (when no admin exists), the server will automatically create:
 
@@ -91,18 +89,18 @@ It will also create:
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 - **Node.js** / **Express**
 - **TypeScript**
 - **Prisma ORM**
-- **SQLite** (dev only)
+- **SQLite**
 - **JWT** (JSON Web Token)
 - **Mailtrap** (SMTP testing)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── prisma/              # Prisma schema and migrations
@@ -119,7 +117,7 @@ It will also create:
 
 ---
 
-## 🛠 Environment Variables
+## Environment Variables
 
 | Variable           | Description                                 |
 |--------------------|---------------------------------------------|
