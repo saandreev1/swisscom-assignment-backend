@@ -10,11 +10,4 @@ services:
       - .:/app
       - /app/node_modules
       - ./prisma:/app/prisma
-    environment:
-      - JWT_SECRET=super-secret-key
-      - EMAIL_HOST=sandbox.smtp.mailtrap.io
-      - EMAIL_PORT=2525
-      - EMAIL_USER=6189cef5d3bc7c
-      - EMAIL_PASS=5fd302b07444d7
-      - FEEDBACK_URL_BASE=http://localhost:5173
     command: sh -c "npx prisma generate && npm run build && node dist/index.js"
